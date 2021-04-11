@@ -6,12 +6,6 @@ from time import sleep
 
 
 
-ip = "0.0.0.0"
-"""
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind((ip, 1234))
-server.listen(5)
-"""
 
 data = ""
 clients = []
@@ -20,7 +14,6 @@ def connect():
     global clients
     while True:
         
-
         ip = "0.0.0.0"
 
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -38,7 +31,6 @@ def send_data():
     while True:
 
         data = bytes(input("data : "), "utf-8")
-        print(data)
         for index, client in enumerate(clients):
             try:
                 client["connection"].send(data)
@@ -63,7 +55,6 @@ def recv_data():
 
 
 
-#while True:
 
 thread_connect = threading.Thread(target=connect)
 thread_send = threading.Thread(target=send_data)

@@ -1,15 +1,83 @@
 import socket
 import os
 import sys
+import threading
+from time import sleep
+
 
 
 ip = "0.0.0.0"
+"""
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((ip, 1234))
 server.listen(5)
+"""
 
-while True:
-    connection , address = server.accept()
-    print("connected with", address)
-    connection.send(bytes("it works"))
+data = ""
+clients = []
+
+def connect():
+    global clients
+    while True:
+        
+
+        ip = "0.0.0.0"
+
+        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server.bind((ip, 1268))
+        server.listen(5)
+
+        connection , address = server.accept()
+        clients.append({"connection":connection,"address":address})
+
+        print("connected with", address)
+
+
+def send_data():
+    global data
+    while True:
+
+        data = bytes(input("data : "), "utf-8")
+        print(data)
+        for index, client in enumerate(clients):
+            try:
+                client["connection"].send(data)
+            except:
+                print(client["address"], "diconnected \n")
+                clients.pop(index)
+
+
+
+def recv_data():
+    global client
+    while True:
+   
+        for index, client in enumerate(clients):
+            try:
+                data = client["connection"].recv(1024).decode("utf-8")
+                if len(data) > 0:
+                    print(client["address"]," : ", data)
+            except:
+                print(client["address"], "diconnected \n")
+                clients.pop(index)
+
+
+
+#while True:
+
+thread_connect = threading.Thread(target=connect)
+thread_send = threading.Thread(target=send_data)
+thread_recv = threading.Thread(target=recv_data)
+
+thread_connect.start()
+thread_send.start()
+thread_recv.start()
+
+thread_connect.join()
+thread_send.join()
+thread_recv.join()
+
+    
+    
+
 

@@ -5,7 +5,7 @@ import subprocess
 
 ip = socket.gethostname()
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.connect((socket._LOCALHOST, 1268))
+server.connect((socket._LOCALHOST, 1268)) # non-local => changer socket._LOCALHOST en votre ip
 
 print("connected")
 

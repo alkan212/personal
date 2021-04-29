@@ -30,7 +30,7 @@ def send_data():
     global data
     while True:
 
-        data = bytes(input("data : "), "utf-8")
+        data = bytes(input(""), "utf-8")
         for index, client in enumerate(clients):
             try:
                 client["connection"].send(data)

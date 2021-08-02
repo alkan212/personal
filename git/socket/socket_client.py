@@ -6,7 +6,7 @@ import base64
 
 host_name = os.getlogin()
 ip = socket.gethostbyname(host_name)
-HOST = socket._LOCALHOST  # non-local => changer socket._LOCALHOST en votre ip
+HOST = socket._LOCALHOST  # non-local => changer socket._LOCALHOST en votre ip 
 PORT = 1268
 
 filename = "data_socket1.txt"
